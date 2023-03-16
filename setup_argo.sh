@@ -27,7 +27,7 @@ fi
 kubectl config set-context --current --namespace=argocd
 
 argocd app create welcomedesk \
-  --repo https://github.com/manojthati/welcomedesk-fullstack-k8s.git \
+  --repo https://github.com/manojthati/fullstack-k8s.git \
   --path ./manifests \
   --revision main \
   --dest-server https://kubernetes.default.svc \
