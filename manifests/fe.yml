@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: welcomedesk-fe
+spec:
+  selector:
+    app: welcomedesk-fe
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: welcomedesk-fe
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: welcomedesk-fe
+  template:
+    metadata:
+      labels:
+        app: welcomedesk-fe
+    spec:
+      containers:
+      - name: welcomedesk-fe
+        image: manojthati/welcomedesk-fe:9ca6d24be5bff480636492937caa5b7996c0a814
+        ports:
+          - containerPort: 80
+#         resources:
+#           limits:
+#             cpu: 250m
+#             memory: "250Mi"
+#           requests:
+#             cpu: 100m
+#             memory: "120Mi"
+# ---
+# apiVersion: autoscaling/v2beta2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: welcomedesk-fe
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: welcomedesk-fe
+#   minReplicas: 2
+#   maxReplicas: 5
+#   metrics:
+#   - type: Resource
+#     resource:
+#       name: cpu
+#       target:
+#         type: Utilization
+#         averageUtilization: 50

@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: welcomedesk-be
+spec:
+  selector:
+    app: welcomedesk-be
+  type: NodePort
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: welcomedesk-be
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: welcomedesk-be
+  template:
+    metadata:
+      labels:
+        app: welcomedesk-be
+    spec:
+      containers:
+      - name: welcomedesk-be
+        image: manojthati/welcomedesk-be:9ca6d24be5bff480636492937caa5b7996c0a814
+        ports:
+          - containerPort: 8000
+        env:
+          - name: MONGO_HOST
+            value: db
+          - name: MONGO_USER
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secrets
+                key: username
+          - name: MONGO_PASS
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secrets
+                key: password
+          - name: MONGO_PORT
+            value: "27017"
+#         resources:
+#           limits:
+#             cpu: 250m
+#             memory: "250Mi"
+#           requests:
+#             cpu: 100m
+#             memory: "120Mi"
+# ---
+# apiVersion: autoscaling/v2beta2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: welcomedesk-be
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: welcomedesk-be
+#   minReplicas: 2
+#   maxReplicas: 5
+#   metrics:
+#   - type: Resource
+#     resource:
+#       name: cpu
+#       target:
+#         type: Utilization
+#         averageUtilization: 50
+        

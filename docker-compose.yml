@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: welcomedesk-be
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      MONGO_HOST: db
+      MONGO_USER: "admin"
+      MONGO_PASS: "pass"
+      MONGO_PORT: "27017"
+
+  frontend:
+    build:
+      context: welcomedesk-fe
+      args:
+        API_HOST: "http://localhost:8000"
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  db:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    ports:
+      - "27017:27017"
