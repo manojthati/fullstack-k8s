@@ -24,5 +24,9 @@ commit: ddac20b4b34a9c8c857fc602203b6ba2679794d3
 This repository has got a full stack application in which the frontend is built using ReactJS, the backend in FastAPI and MongoDB as the database. The application acts as a reception record book that can store the name and message from your visitor in the reverse order of their entry.
 The application doesn't have a mechanism to authenticate the request as of now as the data stored is public in nature.
 
+## Deploying the application
 
+### In docker using docker compose
+As you may have cloned the repo to your machine and you have the docker running in your machine, all you need to do is navigate to the cloned repo and run `docker compose up --build`. You will have the frontend serving on http://localhost:3000 once the image is build successfully. Following snapshot shows the demo UI of application. The visitor entries will be stacked right below the form.
 
+<img width="1052" alt="Screen Shot 2023-03-16 at 12 29 01 AM" src="https://user-images.githubusercontent.com/36253339/225545299-c0c2d20c-7557-4b7b-972b-2389c58cd706.png">
